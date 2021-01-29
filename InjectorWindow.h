@@ -173,7 +173,7 @@ namespace GreatInjector {
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"InjectorWindow";
-			this->Text = L"The Great Injector v 0.1";
+			this->Text = L"The Great Injector v 0.3";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -209,6 +209,8 @@ namespace GreatInjector {
 				if (loc)																				  // Выделение не должно быть пустым
 				{
 					WriteProcessMemory(hProc, loc, StringToChar(Path), strlen(StringToChar(Path)) + 1, 0);
+					std::cout << StringToChar(Path) + 1 << std::endl;
+					std::cout << strlen(StringToChar(Path)) + 1 << std::endl;
 				}
 
 				HANDLE hThread = CreateRemoteThread(hProc, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryA, loc, 0, 0);	//Создаем поток внутри процесса, который вызывает библиотеку
