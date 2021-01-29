@@ -1,6 +1,7 @@
 #pragma once
 #include "Includes.hpp"
 #include "Core.hpp"
+#include "ComboBoxItemDelegate.hpp"
 
 namespace GreatInjector {
 
@@ -47,7 +48,11 @@ namespace GreatInjector {
 	private: System::Windows::Forms::Button^ InjectButton;
 	private: System::Windows::Forms::ComboBox^ ProcessComboBox;
 	private: System::Windows::Forms::Button^ FolderBrowserButton;
-	private: System::Windows::Forms::FolderBrowserDialog^ folderBrowserDialog1;
+	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
+
+	//Переменные класса
+
+
 
 
 
@@ -73,7 +78,7 @@ namespace GreatInjector {
 			this->InjectButton = (gcnew System::Windows::Forms::Button());
 			this->ProcessComboBox = (gcnew System::Windows::Forms::ComboBox());
 			this->FolderBrowserButton = (gcnew System::Windows::Forms::Button());
-			this->folderBrowserDialog1 = (gcnew System::Windows::Forms::FolderBrowserDialog());
+			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -147,6 +152,10 @@ namespace GreatInjector {
 			this->FolderBrowserButton->UseVisualStyleBackColor = true;
 			this->FolderBrowserButton->Click += gcnew System::EventHandler(this, &InjectorWindow::FolderBrowserButton_Click);
 			// 
+			// openFileDialog1
+			// 
+			this->openFileDialog1->FileName = L"File.dll";
+			// 
 			// InjectorWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -171,11 +180,52 @@ namespace GreatInjector {
 #pragma endregion
 		private: System::Void InjectButton_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
+			String^ Path = DLLTextBox->Text;
+			String^ Proc = ProcessComboBox->Text;
+			DWORD procId = 0;
+			/*
+			while (!procId)
+			{
+				procId = Core::GetProcId(Proc);
+				Sleep(50);
+			}
+			HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, 0, procId);
 
+			if (hProc && hProc != INVALID_HANDLE_VALUE)
+			{
+				void* loc = VirtualAllocEx(hProc, 0, MAX_PATH, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE); //Выделяем дополнительную память в процессе (External)
+																										  //Аргументы: 1. Прцесс, в котором происходит выделение
+																										  //2. Указатель на начальный адрес
+																										  //3. Размер выделяемой области памяти в байтах.
+																										  //4. Тип выделения памяти
+																										  //5. Тип защиты памяти (на чтение и изменение)
+																										  //!! Мы не помещаем сому DLL в процесс, а размещаем путь к DLL !!
+
+				if (loc)																				  // Выделение не должно быть пустым
+				{
+					WriteProcessMemory(hProc, loc, Path, strlen(Path) + 1, 0);
+				}
+
+				HANDLE hThread = CreateRemoteThread(hProc, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryA, loc, 0, 0);	//Создаем поток внутри процесса, который вызывает библиотеку
+																													//Путь к который был задан в процесс заранее
+
+				if (hThread)
+				{
+					CloseHandle(hThread);
+				}
+			}
+			if (hProc)
+			{
+				CloseHandle(hProc);
+			}*/
 		}
 		private: System::Void FolderBrowserButton_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
-
+			openFileDialog1->Filter = "DLL библиотека (*.dll)|*.dll|Все файлы (*.*)|*.*";
+			if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+			{
+				DLLTextBox->Text = openFileDialog1->FileName;
+			}
 		}
 	};
 }

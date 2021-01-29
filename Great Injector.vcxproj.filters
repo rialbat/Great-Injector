@@ -16,6 +16,9 @@
     <Filter Include="Core">
       <UniqueIdentifier>{3c4e279d-257f-457a-bb97-27330f9c6df0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ComboBox">
+      <UniqueIdentifier>{c4431f46-b3b1-4d13-bc34-7221f76155ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="logo.ico">
@@ -32,6 +35,9 @@
     <ClCompile Include="Core.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="ComboBoxItemDelegate.cpp">
+      <Filter>ComboBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InjectorWindow.h">
@@ -42,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="Includes.hpp">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ComboBoxItemDelegate.hpp">
+      <Filter>ComboBox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

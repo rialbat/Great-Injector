@@ -1,6 +1,6 @@
 #include "Core.hpp"
 
-DWORD Core::GetProcId(const wchar_t* procName)
+DWORD Core::GetProcId(const char* procName)
 {
 	DWORD procId = 0;
 	HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -15,9 +15,7 @@ DWORD Core::GetProcId(const wchar_t* procName)
 		{
 			do
 			{
-				if (!_wcsicmp(procEntry.szExeFile, procName))
-
-
+				if (!_stricmp(procEntry.szExeFile, procName))
 				{
 					procId = procEntry.th32ProcessID;
 					break;

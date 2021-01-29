@@ -3,5 +3,5 @@
 
 namespace Core 
 {
-	DWORD GetProcId(const wchar_t* procName);
+	DWORD GetProcId(const char* procName);
 }
