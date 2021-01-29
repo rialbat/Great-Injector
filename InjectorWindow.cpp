@@ -32,7 +32,7 @@ void GreatInjector::InjectorWindow::FillComboBox()
 
 		if (Process32First(hSnap, &procEntry))
 		{
-			GreatInjector::InjectorWindow::ProcessComboBox->BeginUpdate();
+			ProcessComboBox->BeginUpdate();
 			do
 			{
 				i++;
@@ -41,13 +41,14 @@ void GreatInjector::InjectorWindow::FillComboBox()
 				//
 				//StringCbPrintfA((STRSAFE_LPSTR)CurrentProc, sizeof(CurrentProc), "%s", procEntry.szExeFile);
 				NewComboItem.setItem(procEntry.szExeFile);
-				GreatInjector::InjectorWindow::ProcessComboBox->Items->Add(i.ToString() + ". " + *NewComboItem.getItem());
+				if (ProcessComboBox->Items->Contains(NewComboItem.getItem())){}
+				else ProcessComboBox->Items->Add(NewComboItem.getItem());
 				//System::Windows::Forms::MessageBox(NULL, *(char*)procEntry.szExeFile, "Logs", MB_OK);
 				std::cout << (STRSAFE_LPSTR)Buffer;
+				NewComboItem.clear();
 				//std::cout << NewComboItem.getItem();
 			} while (Process32Next(hSnap, &procEntry));
-			
-			GreatInjector::InjectorWindow::ProcessComboBox->EndUpdate();
+			ProcessComboBox->EndUpdate();
 		}
 	}
 	CloseHandle(hSnap);

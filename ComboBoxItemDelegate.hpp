@@ -4,10 +4,11 @@
 ref class ComboBoxItemDelegate
 {
 private:
-	wchar_t* item;
+	System::String^ item;
 
 public:
-	wchar_t* getItem();
+	System::String^ getItem();
 	void setItem( const STRSAFE_LPSTR newItem );
+	void clear();
 };
 

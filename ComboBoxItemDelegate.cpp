@@ -1,6 +1,6 @@
 #include "ComboBoxItemDelegate.hpp"
 
-wchar_t* ComboBoxItemDelegate::getItem()
+System::String^ ComboBoxItemDelegate::getItem()
 {
 	return item;
 }
@@ -8,6 +8,15 @@ wchar_t* ComboBoxItemDelegate::getItem()
 void ComboBoxItemDelegate::setItem(const STRSAFE_LPSTR newItem)
 {
 	//1 вариант StringCbPrintfA((STRSAFE_LPSTR)item, sizeof(*item), "%s", newItem);
-	item = (wchar_t*)newItem;
+	//item = newItem;
 	//3 вариант mbstowcs(item, newItem, sizeof(item));
+	for (int i = 0; newItem[i] != '\0'; i++)
+	{
+		item += wchar_t(newItem[i]);
+	}
+}
+
+void ComboBoxItemDelegate::clear()
+{
+	item = "";
 }

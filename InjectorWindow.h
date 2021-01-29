@@ -11,6 +11,7 @@ namespace GreatInjector {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Runtime::InteropServices;
 
 	/// <summary>
 	/// Сводка для InjectorWindow
@@ -139,7 +140,8 @@ namespace GreatInjector {
 			this->ProcessComboBox->FormattingEnabled = true;
 			this->ProcessComboBox->Location = System::Drawing::Point(198, 302);
 			this->ProcessComboBox->Name = L"ProcessComboBox";
-			this->ProcessComboBox->Size = System::Drawing::Size(145, 21);
+			this->ProcessComboBox->Size = System::Drawing::Size(176, 21);
+			this->ProcessComboBox->Sorted = true;
 			this->ProcessComboBox->TabIndex = 4;
 			// 
 			// FolderBrowserButton
@@ -178,15 +180,18 @@ namespace GreatInjector {
 
 		}
 #pragma endregion
+		private: char* StringToChar(System::String^ string)
+		{
+			return (char*)(void*)Marshal::StringToHGlobalAnsi(string);
+		}
 		private: System::Void InjectButton_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
 			String^ Path = DLLTextBox->Text;
 			String^ Proc = ProcessComboBox->Text;
 			DWORD procId = 0;
-			/*
 			while (!procId)
 			{
-				procId = Core::GetProcId(Proc);
+				procId = Core::GetProcId(StringToChar(Proc));
 				Sleep(50);
 			}
 			HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, 0, procId);
@@ -203,7 +208,7 @@ namespace GreatInjector {
 
 				if (loc)																				  // Выделение не должно быть пустым
 				{
-					WriteProcessMemory(hProc, loc, Path, strlen(Path) + 1, 0);
+					WriteProcessMemory(hProc, loc, StringToChar(Path), strlen(StringToChar(Path)) + 1, 0);
 				}
 
 				HANDLE hThread = CreateRemoteThread(hProc, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryA, loc, 0, 0);	//Создаем поток внутри процесса, который вызывает библиотеку
@@ -217,7 +222,7 @@ namespace GreatInjector {
 			if (hProc)
 			{
 				CloseHandle(hProc);
-			}*/
+			}
 		}
 		private: System::Void FolderBrowserButton_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
