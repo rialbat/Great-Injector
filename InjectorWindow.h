@@ -53,7 +53,7 @@ namespace GreatInjector {
 	private: System::Windows::Forms::MessageBox^ SuccessMessage;
 	private: System::Windows::Forms::MessageBox^ ErrorMessage;
 
-	//Переменные класса
+		   //Переменные класса
 
 
 
@@ -64,7 +64,7 @@ namespace GreatInjector {
 		/// <summary>
 		/// Обязательная переменная конструктора.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -182,10 +182,10 @@ namespace GreatInjector {
 
 		}
 #pragma endregion
-		private: char* StringToChar(System::String^ string)
-		{
-			return (char*)(void*)Marshal::StringToHGlobalAnsi(string);
-		}
+	private: char* StringToChar(System::String^ string)
+	{
+		return (char*)(void*)Marshal::StringToHGlobalAnsi(string);
+	}
 	private: System::Void InjectButton_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		String^ Path = DLLTextBox->Text;
@@ -194,11 +194,11 @@ namespace GreatInjector {
 		if (Path == "" || Proc == "")
 		{
 			ErrorMessage->Show("Значения не могут быть пустыми!",
-				"Error",
-				MessageBoxButtons::OK,
-				MessageBoxIcon::Error,
-				MessageBoxDefaultButton::Button1,
-				MessageBoxOptions::DefaultDesktopOnly);
+							   "Error",
+							   MessageBoxButtons::OK,
+							   MessageBoxIcon::Error,
+							   MessageBoxDefaultButton::Button1,
+							   MessageBoxOptions::DefaultDesktopOnly);
 		}
 		else
 		{
@@ -238,31 +238,31 @@ namespace GreatInjector {
 			else
 			{
 				ErrorMessage->Show("Что-то пошло не так!",
-					"Error",
-					MessageBoxButtons::OK,
-					MessageBoxIcon::Error,
-					MessageBoxDefaultButton::Button1,
-					MessageBoxOptions::DefaultDesktopOnly);
+								   "Error",
+								   MessageBoxButtons::OK,
+								   MessageBoxIcon::Error,
+								   MessageBoxDefaultButton::Button1,
+								   MessageBoxOptions::DefaultDesktopOnly);
 			}
 			if (hProc)
 			{
 				CloseHandle(hProc);
 			}
 			SuccessMessage->Show("Внедрение DLL успешно выполнено",
-				"Success",
-				MessageBoxButtons::OK,
-				MessageBoxIcon::Information,
-				MessageBoxDefaultButton::Button1,
-				MessageBoxOptions::DefaultDesktopOnly);
+								 "Success",
+								 MessageBoxButtons::OK,
+								 MessageBoxIcon::Information,
+								 MessageBoxDefaultButton::Button1,
+								 MessageBoxOptions::DefaultDesktopOnly);
 		}
 	}
-		private: System::Void FolderBrowserButton_Click(System::Object^ sender, System::EventArgs^ e) 
+	private: System::Void FolderBrowserButton_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		openFileDialog1->Filter = "DLL библиотека (*.dll)|*.dll|Все файлы (*.*)|*.*";
+		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 		{
-			openFileDialog1->Filter = "DLL библиотека (*.dll)|*.dll|Все файлы (*.*)|*.*";
-			if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
-			{
-				DLLTextBox->Text = openFileDialog1->FileName;
-			}
+			DLLTextBox->Text = openFileDialog1->FileName;
 		}
+	}
 	};
 }
