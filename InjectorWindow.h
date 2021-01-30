@@ -186,11 +186,22 @@ namespace GreatInjector {
 		{
 			return (char*)(void*)Marshal::StringToHGlobalAnsi(string);
 		}
-		private: System::Void InjectButton_Click(System::Object^ sender, System::EventArgs^ e) 
+	private: System::Void InjectButton_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		String^ Path = DLLTextBox->Text;
+		String^ Proc = ProcessComboBox->Text;
+		DWORD procId = 0;
+		if (Path == "" || Proc == "")
 		{
-			String^ Path = DLLTextBox->Text;
-			String^ Proc = ProcessComboBox->Text;
-			DWORD procId = 0;
+			ErrorMessage->Show("Значения не могут быть пустыми!",
+				"Error",
+				MessageBoxButtons::OK,
+				MessageBoxIcon::Error,
+				MessageBoxDefaultButton::Button1,
+				MessageBoxOptions::DefaultDesktopOnly);
+		}
+		else
+		{
 			while (!procId)
 			{
 				procId = Core::GetProcId(StringToChar(Proc));
@@ -200,7 +211,8 @@ namespace GreatInjector {
 
 			if (hProc && hProc != INVALID_HANDLE_VALUE)
 			{
-				void* loc = VirtualAllocEx(hProc, 0, MAX_PATH, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE); //Выделяем дополнительную память в процессе (External)
+				void* loc = VirtualAllocEx(hProc, 0, MAX_PATH, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE); //Предоставляет физическую память 
+																										  //В виртуальном адресном пространстве процесса (External)
 																										  //Аргументы: 1. Прцесс, в котором происходит выделение
 																										  //2. Указатель на начальный адрес
 																										  //3. Размер выделяемой области памяти в байтах.
@@ -226,23 +238,24 @@ namespace GreatInjector {
 			else
 			{
 				ErrorMessage->Show("Что-то пошло не так!",
-								   "Error",
-								   MessageBoxButtons::OK,
-								   MessageBoxIcon::Error,
-								   MessageBoxDefaultButton::Button1,
-								   MessageBoxOptions::DefaultDesktopOnly);
+					"Error",
+					MessageBoxButtons::OK,
+					MessageBoxIcon::Error,
+					MessageBoxDefaultButton::Button1,
+					MessageBoxOptions::DefaultDesktopOnly);
 			}
 			if (hProc)
 			{
 				CloseHandle(hProc);
 			}
 			SuccessMessage->Show("Внедрение DLL успешно выполнено",
-								 "Success",
-								 MessageBoxButtons::OK,
-								 MessageBoxIcon::Information,
-								 MessageBoxDefaultButton::Button1,
-								 MessageBoxOptions::DefaultDesktopOnly);
+				"Success",
+				MessageBoxButtons::OK,
+				MessageBoxIcon::Information,
+				MessageBoxDefaultButton::Button1,
+				MessageBoxOptions::DefaultDesktopOnly);
 		}
+	}
 		private: System::Void FolderBrowserButton_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
 			openFileDialog1->Filter = "DLL библиотека (*.dll)|*.dll|Все файлы (*.*)|*.*";
