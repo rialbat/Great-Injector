@@ -50,6 +50,8 @@ namespace GreatInjector {
 	private: System::Windows::Forms::ComboBox^ ProcessComboBox;
 	private: System::Windows::Forms::Button^ FolderBrowserButton;
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
+	private: System::Windows::Forms::MessageBox^ SuccessMessage;
+	private: System::Windows::Forms::MessageBox^ ErrorMessage;
 
 	//Переменные класса
 
@@ -209,7 +211,7 @@ namespace GreatInjector {
 				if (loc)																				  // Выделение не должно быть пустым
 				{
 					WriteProcessMemory(hProc, loc, StringToChar(Path), strlen(StringToChar(Path)) + 1, 0);
-					std::cout << StringToChar(Path) + 1 << std::endl;
+					std::cout << StringToChar(Path) << std::endl;
 					std::cout << strlen(StringToChar(Path)) + 1 << std::endl;
 				}
 
@@ -221,10 +223,25 @@ namespace GreatInjector {
 					CloseHandle(hThread);
 				}
 			}
+			else
+			{
+				ErrorMessage->Show("Что-то пошло не так!",
+								   "Error",
+								   MessageBoxButtons::OK,
+								   MessageBoxIcon::Error,
+								   MessageBoxDefaultButton::Button1,
+								   MessageBoxOptions::DefaultDesktopOnly);
+			}
 			if (hProc)
 			{
 				CloseHandle(hProc);
 			}
+			SuccessMessage->Show("Внедрение DLL успешно выполнено",
+								 "Success",
+								 MessageBoxButtons::OK,
+								 MessageBoxIcon::Information,
+								 MessageBoxDefaultButton::Button1,
+								 MessageBoxOptions::DefaultDesktopOnly);
 		}
 		private: System::Void FolderBrowserButton_Click(System::Object^ sender, System::EventArgs^ e) 
 		{

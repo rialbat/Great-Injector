@@ -12,3 +12,6 @@
 
 //Other
 #include <strsafe.h>
+
+//Errors check
+#include <errhandlingapi.h>

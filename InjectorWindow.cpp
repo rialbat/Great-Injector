@@ -1,4 +1,6 @@
 #include "InjectorWindow.h"
+#pragma warning(push)
+#pragma warning( disable : 4829 )
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -25,6 +27,7 @@ void GreatInjector::InjectorWindow::FillComboBox()
 		wchar_t Buffer[1024];
 		wchar_t CurrentProc[1024];
 		AllocConsole();
+		SetConsoleTitle("Debug Console");
 		freopen_s(&f, "CONOUT$", "w", stdout);
 		ComboBoxItemDelegate NewComboItem;
 
@@ -53,3 +56,4 @@ void GreatInjector::InjectorWindow::FillComboBox()
 	}
 	CloseHandle(hSnap);
 }
+#pragma warning(pop)
